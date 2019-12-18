@@ -1,4 +1,4 @@
-# webpack学习笔记
+# webpack学习笔记1
 
 ## 安装
 
@@ -133,8 +133,6 @@ module.export = {
 npm install -D vue-loader vue-template-compiler
 ```
 
-
-
 ```javascript
 //  webpack.config.js
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -142,8 +140,6 @@ plugins: [
     new VueLoaderPlugin()
   ]
 ```
-
-
 
 ## plugin
 
