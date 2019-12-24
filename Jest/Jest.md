@@ -9,8 +9,6 @@
 3. `npx jest --init`配置jest
 
 4. `npx jest --coverage`生成测试覆盖率报告
-   
-   
 
 ## 配置
 
@@ -21,8 +19,6 @@
   "coverage": "jest --coverage"` //  生成测试覆盖率报告
 }
 ```
-
-
 
 jest只能识别commonJS的语法，如果要用ES6的语法，需要安装babel，在测试前jest会使用babel转换语法
 
@@ -42,8 +38,6 @@ jest只能识别commonJS的语法，如果要用ES6的语法，需要安装babel
    ```
 
 3. 
-
-
 
 ## 匹配器Matcher
 
@@ -92,16 +86,11 @@ test('toThrow', () => {
   expect(throwNewErrorFunc).toThrow()
 })
 //  可以通过
-
 ```
-
-
 
 ## 测试异步代码
 
 必须要在test方法参数中传入done方法，这样test才会等待异步方法返回的结果，否则会在异步结果返回前就结束测试，从而导致错误代码也能通过测试
-
-
 
 ### 回调函数类型的异步
 
@@ -128,8 +117,6 @@ test('fetchData结果为success', (done) => {
 })
 ```
 
-
-
 ### 非回调函数类型的异步测试
 
 ```javascript
@@ -154,8 +141,6 @@ test('fetchData结果为success', () => {
 })
 ```
 
-
-
 当需要测试某些接口需要返回404时，需要
 
 ```javascript
@@ -171,5 +156,3 @@ test('fetchData结果为success', () => {
   })
 })
 ```
-
-
