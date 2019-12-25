@@ -8,31 +8,27 @@
    
           {Function} callback
    
-   
-   
    1.2 Usage:
    
            Listen for a custom event on the current vm. Events can be triggered by `vm.$emit`. The callback will receive all the additional arguments passed into these event-triggering methods`vm.$emit`.
    
-   
-   
    1.3 Example
-   
-   ```javascript
+
+```javascript
    //  example one
-   
+
    //  define
    vm.$on('test', eventHandler)
-   
+
    //  you can also call more than one methods, cause inside the vm, this 'test' event was put in an array.
    vm.$on('test', eventHandler)
    vm.$on('test', eventHandlerTwo)
    vm.$on('test', eventHandlerThree)
-   
+
 
    //  call
    vm.$emit('test', 'hi')
-   
+
    function eventHandler(msg) {
      console.log(msg)
    }
@@ -45,7 +41,7 @@
    //  hi
    //  two:hi
    //  three:hi
-   
+
    //  example two
    created() {
      this.$on(['my_events1', 'my_events2'], this.eventHandler)
@@ -60,6 +56,4 @@
        this.$emit('my_events1', 'my params')
      }
    }
-   ```
-   
-   
+```
