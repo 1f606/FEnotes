@@ -6,6 +6,4 @@ new Vue() -> init Events & Lifecycle -(beforeCreate)-> init injections & reactiv
 
 Mounted: when data changes -(beforeUpdate)-> virtual DOM re-render and patch -(updated)-> Mounted
 
-
-
-
+![](D:\GoogleDrive\images\2019-12-29-22-56-33-image.png)
