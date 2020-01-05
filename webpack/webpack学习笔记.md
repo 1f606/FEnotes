@@ -8,7 +8,35 @@
 
 3. npm install webpack webpack-cli --save-dev
 
-## 配置
+
+
+## 开始
+
+新建一个文件夹`src` ,然后新建一个文件`main.js`
+
+```js
+console.log('call me 老yuan')
+```
+
+配置package.json命令
+
+```js
+"script": {
+  "build": "webpack src/main.js"
+}
+```
+
+执行
+
+```
+npm run build
+```
+
+会生成dist目录和main.js
+
+
+
+## 自定义配置
 
 ### 模式
 
@@ -21,14 +49,20 @@
 ```javascript
 const path = require('path');
 
-entery: {
-  main: './src/index.js',
-  sub: './src/index.js'  
-},
-output: {
-  publicPath: 'http://cdn.com.cn', //  HtmlWebpackPlugin生成的html文件引用的js文件前面会用publicPath的地址作为前缀开头。
-  filename: '[name].js', //  按entry中key值来设置生成的文件名, HtmlWebpackPlugin会把两个文件都引入
-  path: path.resolve(__dirname, 'dist')
+module.exports = {
+  mode: 'development',
+  //  只有一个入口的时候
+  entry: path.resolve(__dirname, '../src/main.js'),
+  //  多个入口
+  entry: {
+   main: './src/index.js',
+   sub: './src/index.js'
+   },
+  output: {
+   publicPath: 'http://cdn.com.cn', // HtmlWebpackPlugin生成的html文件引用的js文件前面会用publicPath的地址作为前缀开头。
+   filename: '[name].[hash:8].js', // 按entry中key值来设置生成的文件名, HtmlWebpackPlugin会把两个文件都引入
+   path: path.resolve(__dirname, 'dist')
+  }
 }
 ```
 
@@ -81,19 +115,34 @@ loader的执行顺序是从右到左的
 用于解析@import等导入的格式，内置css热模块更新
 
 ```javascript
-test: /\.scss$/,
-use: [
-  'style-loader',
-  {
-    loader: 'css-loader',
-    options: {
-      importLoaders: 2,//  用于处理导入的css文件中的import导入的css文件，让这些文件也被'sass-loader'和'postcss-loader'处理一遍，走完完整流程
-      modules: true//  开启css模块化，同时导入时也有要注意的地方，具体看下方demo
-    }
-  }，
-  'sass-loader',
-  'postcss-loader'
-]
+module.exports = {
+  //  省略其他配置
+  module: {
+    rules: [
+      {
+          test:/\.css$/,
+          use:['style-loader','css-loader'] // 从右向左解析原则
+      },
+      {
+         test: /\.scss$/,
+         use: [
+           'style-loader',
+           {
+             loader: 'css-loader',
+             options: {
+               importLoaders: 2,// 用于处理导入的css文件中的import导入的css文      件，让这些文件也被'sass-loader'和'postcss-loader'处理一遍，走完完整流程
+               modules: true// 开启css模块化，同时导入时也有要注意的地方，具体看下方demo
+             }
+           }，
+           //  记得安装npm install -D node-sass
+           'sass-loader',
+           //  npm i -D postcss-loader autoprefixer  
+           'postcss-loader'
+          ]
+       }
+    ]
+  }
+}
 ```
 
 #### css模块化
@@ -115,6 +164,10 @@ document.getElementById('root').append(img);
 
 用于添加厂商前缀
 
+安装
+
+`npm i -D autoprefixer`
+
 需要autoprefixer插件，并在postcss.config.js中配置
 
 ```javascript
@@ -133,8 +186,6 @@ module.export = {
 npm install -D vue-loader vue-template-compiler
 ```
 
-
-
 ```javascript
 //  webpack.config.js
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -142,8 +193,6 @@ plugins: [
     new VueLoaderPlugin()
   ]
 ```
-
-
 
 ## plugin
 
@@ -162,6 +211,43 @@ module.export = {
   })]
 }
 ```
+
+
+
+#### 多入口文件如何开发
+
+> 生成多个html-webpack-plugin实例来解决这个问题
+
+```js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+    mode:'development', // 开发模式
+    entry: {
+      main:path.resolve(__dirname,'../src/main.js'),
+      header:path.resolve(__dirname,'../src/header.js')
+  }, 
+    output: {
+      filename: '[name].[hash:8].js',      // 打包后的文件名称
+      path: path.resolve(__dirname,'../dist')  // 打包后的目录
+    },
+    plugins:[
+      new HtmlWebpackPlugin({
+        template:path.resolve(__dirname,'../public/index.html'),
+        filename:'index.html',
+        chunks:['main'] // 与入口文件对应的模块名
+      }),
+      new HtmlWebpackPlugin({
+        template:path.resolve(__dirname,'../public/header.html'),
+        filename:'header.html',
+        chunks:['header'] // 与入口文件对应的模块名
+      }),
+    ]
+}
+```
+
+
+
 
 ### cleanWebpackPlugin
 
