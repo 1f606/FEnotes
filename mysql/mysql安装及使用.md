@@ -4,8 +4,6 @@
 
 ![](D:\GoogleDrive\images\2019-12-29-16-07-12-image.png)
 
-
-
 ```
 //  在根目录下创建my.ini utf8无bom格式
 [mysqld]
@@ -34,8 +32,6 @@ port=3306
 default-character-set=utf8
 ```
 
-
-
 ### 管理员模式运行cmd
 
 1. 创建服务，名字可自定义 `mysqld --install mysql8`
@@ -53,7 +49,3 @@ default-character-set=utf8
 mysql 无法启动 ： NET HELPMSG 3523
 
 > 需要把格式转为无bom的utf-8 再启动就可以了
-
-
-
-
