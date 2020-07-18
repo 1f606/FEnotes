@@ -1,7 +1,5 @@
 electron-builder打包vue项目
 
-
-
 ```js
 //package.json参数解析
     "build": {
@@ -17,7 +15,7 @@ electron-builder打包vue项目
             "output": "build"
         },
         "files": [
-            "dist/electron/**/*"
+            "dist/**/*"//dist为打包后的index文件和资源目录，后面必须是/**/*
         ],
         "dmg": {
             "contents": [
@@ -51,7 +49,7 @@ electron-builder打包vue项目
                 }
             ]
         },
-      
+
         "linux": {
             "icon": "build/icons"
         },
@@ -80,8 +78,6 @@ electron-builder打包vue项目
         ]
     }
 ```
-
-
 
 ```js
 //入口文件
@@ -137,7 +133,4 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
 ```
-
-
