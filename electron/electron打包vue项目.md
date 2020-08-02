@@ -1,5 +1,15 @@
 electron-builder打包vue项目
 
+```
+//dependency
+electron-updater
+//devdenpency
+electron
+electron-builder
+```
+
+
+
 ```js
 //package.json参数解析
     "build": {
@@ -15,6 +25,8 @@ electron-builder打包vue项目
             "output": "build"
         },
         "files": [
+            "主入口文件",
+            "以及主进程中引入的js文件",
             "dist/**/*"//dist为打包后的index文件和资源目录，后面必须是/**/*
         ],
         "dmg": {
@@ -83,14 +95,22 @@ electron-builder打包vue项目
 //入口文件
 const { app, BrowserWindow, globalShortcut } = require('electron')
 
-
 // 保持对window对象的全局引用，如果不这么做的话，当JavaScript对象被
 // 垃圾回收的时候，window对象将会自动的关闭
 let win
 
 function createWindow () {
   // 创建浏览器窗口。
-  win = new BrowserWindow({ width: 800, height: 600, webPreferences: { webSecurity: false } })
+  win = new BrowserWindow({
+      width: 800,
+      height: 600,
+      webPreferences: {
+          webSecurity: false,
+          //这个文件里加入global.electron = require('electron')
+          //这样就可以在vue中使用electron。window.electron.ipcRenderer
+          preload: path.join('__dirname', '../src/renderer.js')
+      }
+  })
   win.loadURL('indexurl')
 
 
